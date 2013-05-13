@@ -3,6 +3,7 @@
 #= require graph-1.3.0/graph-min.js
 
 sense = null
+graph = null
 
 checkForSenseSession = () ->
   if $.cookie('session_id')?
@@ -72,17 +73,29 @@ retrieveSensorTimespan = (id, cb) ->
 
 
 plotSensorData = (id) ->
-  container = document.getElementById 'graph_container'
-
   sense.sensorData id, (err, resp) ->
     data = []
     data.push {date: new Date(datum.date*1000), value: JSON.parse(datum.value)['x-axis']} for datum in resp.object.data
-
-    graph = new links.Graph container
+    
     graph.draw [label: 'X-axis', data: data]
+    # console.log graph
+    $('#actions').fadeIn()
+
+callSegmentation = (sensor, cb) ->
+
+  $.ajax
+    url: '/segment?sensor=' + sensor
+    headers:
+      session_id: $.cookie('session_id')
+  .done (data) ->
+    graph.data.push label: 'mod x-axis', data: data
+    graph.redraw()
 
 
 $ ->
+
+  container = document.getElementById 'graph_container'
+  graph = new links.Graph container
 
   checkForSenseSession()
 
@@ -117,9 +130,14 @@ $ ->
     return false;
 
 
+  $('#actions .segment').on 'click', () ->
+    callSegmentation $('#sensors button').data 'id'
+    return false
+
 
   # Replace dropdown value with selected value
   $('.dropdown-menu').on 'click', 'a', (e) ->
     button = $(@).closest('.btn-group').removeClass('open').find('button')
     button_childs = button.find('*')
     button.text($(@).data('display') + ' ').append button_childs
+    button.data('id', $(@).data('id') )
