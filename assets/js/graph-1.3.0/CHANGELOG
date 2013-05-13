@@ -1,0 +1,77 @@
+CHAP Links Library - Graph
+
+
+<not yet released>, version 1.3.0
+
+- Implemented vertical background areas
+- Robustness improvements against invalid data.
+- Fixed a non-working example16 (invalid dates).
+- Fixed a rendering bug on IE8 and older.
+
+
+2013-04-18, version 1.2.6
+
+- Implemented colored background ranges.
+- Changed: renamed option intervalMin to zoomMin and intervalMax to zoomMax
+  (Thanks Oleg Varaksin).
+
+
+2013-03-04, version 1.2.5
+
+- Fixed: issues with dates on millisecond scale or with negative years.
+- Fixed: issue with calculating absolute positions of mouse and elements in
+  scrolled elements or body.
+
+
+2013-01-18, version 1.2.4
+
+- Fixed touch events not handled correctly in case of multiple simultaneous
+  touches.
+
+
+2012-12-29, version 1.2.3
+
+- Fixed unclosed table element in the tooltip.
+
+
+2012-11-28, version 1.2.2
+
+- Small improvements in the text formatting of the tooltip.
+- Fixed: Implemented workarounds for a few bugs in Chrome on Windows, rendering
+  the tooltip incorrectly.
+
+
+2012-11-27, version 1.2.1
+
+- Fixed a bug in IE caused by the new tooltip introduced in version 1.2.0.
+
+
+2012-11-23, version 1.2
+
+- Added a tooltip showing date and value when overing over a function in the
+  graph. The tooltip can be turned on or off with the option tooltip.
+- Added a new scale "WEEKDAY", which shows the weekday in the minor label.
+
+
+2012-09-05, version 1.1.2
+
+- Fix: the options moveable and zoomable did not work at all.
+- Fix: html layout in example 04 and 12 (divs where aligned horizontally
+  instead of vertically on Firefox).
+
+
+2012-06-28, version 1.1.1
+
+- Fix: Graph can now handle dates and values which are undefined (not only null).
+- Example example15_multicolor_graph.html added
+
+
+2012-06-04, version 1.1
+
+- Documentation has a new layout
+- Source code cleaned up
+
+
+2012-05-01, version 1.0
+
+- initial upload to github (formerly located at sourceforge)

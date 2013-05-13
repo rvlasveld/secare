@@ -9,7 +9,7 @@
 
 <script type="text/javascript">
 var sense = new Sense();
-sense.createSession('roemer', 'aa89a3ef3b275e9b72678aadb908cdec', function(err, res){
+sense.createSession('some_username', 'md5_of_password', function(err, res){
   sense.devices(function(error, response){
     console.log(response.object);
   });

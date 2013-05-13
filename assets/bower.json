@@ -2,6 +2,7 @@
   "name": "Secare",
   "version": "0.0.1",
   "dependencies": {
-    "commonsense": "*"
+    "commonsense": "*",
+    "JavaScript-MD5": "*"
   }
 }

@@ -42,29 +42,37 @@ block content
           button.btn(type="submit") Authenticate
 
 
-  #devices.row
+  .row
 
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  #sensors.row
+    #devices.span4
+      h2 Devices
+      p Please select the device you wish to inspect.
+      form
+        .btn-group
+          button.btn.dropdown-toggle(data-toggle="dropdown")
+            | Device
+            &nbsp;
+            span.caret
+          ul.dropdown-menu
+            li
+              a No devices
 
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  #segment.row
+    #sensors.span4.offset1
+      h2 Sensors
+      p Please select the sensor you wish to inspect.
+      form
+        .btn-group
+          button.btn.dropdown-toggle(data-toggle="dropdown")
+            | Sensor
+            &nbsp;
+            span.caret
+          ul.dropdown-menu
+            li
+              a No sensors
+
+
+  #visualization.row
+    #graph_container
 
   <br />
   <br />
