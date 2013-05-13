@@ -1,0 +1,19 @@
+<html>
+<head>
+  <title>Commonsense API Test</title>
+  <script type="text/javascript" src="../lib/commonsense.js"></script>
+</head>
+
+<body>
+</body>
+
+<script type="text/javascript">
+var sense = new Sense();
+sense.createSession('roemer', 'aa89a3ef3b275e9b72678aadb908cdec', function(err, res){
+  sense.devices(function(error, response){
+    console.log(response.object);
+  });
+});
+</script>
+
+</html
