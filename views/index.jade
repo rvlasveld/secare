@@ -1,88 +1,104 @@
 extends layout
+
 block content
-  .container
-    .span4
-      div.
-        <a href="http://www.flickr.com/photos/astrapica/2560897976/" title="Uk express... by astrapi, on Flickr"><img src="http://farm4.staticflickr.com/3049/2560897976_48257593b7.jpg" width="100%" height="120px" alt="Uk express..."></a>
-      a.button(href="https://github.com/twilson63/express-coffee/zipball/v1.3.0") Download
-      &nbsp;
-      a.button(href="https://github.com/twilson63/express-coffee") Source
-      :markdown
-        ### About
 
-        This template was built to make it very easy to get up and going on small little prototypes and weekend projects.
+  #home.row
+    .hero-unit
+      h1 Secare Segmentation
+      p Online CommonSense segmentation platform.
 
-        ### Contact Us
+    h2 How does it work
+    p
+      | Secare uses data stored in the Sense-OS platform to segment your data.
+      | You have to provide your username and password (shortly OAuth will be)
+      | implemented!), after which you can choose which device and sensor you
+      | want to visualise. The segmentation algorithms are:
+    ul
+      li RuLSIF
+      li CUSUM
+      li Roemer's Method
 
-        Have questions, or would like to contribute?
-
-        * [Post an Issue](https://github.com/twilson63/express-coffee/issues)
-        * [Submit a pull request](https://github.com/twilson63/express-coffee)
-        * Follow Us on twitter! [@jackhq](http://twitter.com/jackhq)
-    .span7
-      :markdown
-        The express-coffee template is now upgraded to use node version 0.8.x+ and refined to utilized a few new features to get up and running.
-
-        # Features
-
-        ### Automated Compile Step
-
-        express-coffee template is made to quickly start putting together an application/prototype.  
-
-        Now you can run cake dev and when every coffee file is changed it will rebuild the app.
-        
-        Also, it includes supervisor, which will restart you application everytime you change your views or js files.
-
-            cake dev
+    p
+      | The resulting segmentation is available as interactive chart, a rendered
+      | png image or as a JSON api endpoint.
 
 
-        ### Rails-like Asset Pipeline
 
-        express-coffee template comes ready to go with connect-assets a rails like asset pipeline.  You can add your css and js to the assets folder.  Then in jade you can reference your assets using a couple of helper methods.
 
-             != css('mycss') 
-             #= Pull from /assets/css/mycss.styl
-             != js('app') 
-             #= Pull from /assets/js/app.coffee or app.js
+  #authenticate.row
+    h2 Authentication
+    p The first step is to authenticate yourself.
+    form.form-horizontal
+      .control-group
+        label.control-label(for="username") Username
+        .controls
+          input#username(type="text", placeholder="CommonSense username")
+      .control-group
+        label.control-label(for="password") password
+        .controls
+          input#password(type="password", placeholder="CommonSense password")
+      .control-group
+        .controls
+          button.btn(type="submit") Authenticate
 
-        See [connect-assets](http://github.com/TrevorBurnham/connect-assets) for more information
 
-        ### Jade as the default template language
+  #devices.row
 
-        express-coffee template has switched to jade as the default template language.  It seems to be the clear winner and the most mature at this point.  The rich featureset of integrating markdown and coffeescript and other helpers is big plus for getting things up fast.
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  #sensors.row
 
-            extends layout
-            block content
-              .container
-                .four.columns
-                  :markdown
-                    # Hello World
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  #segment.row
 
-        ### Skeleton CSS as the default responsive grid
-
-        skeleton is clean and basic and can easily be adjusted.
-
-        ### Mocha and Request for testing
-        
-        mocha is an extremely powerful and easy to use testing framework
-        
-        see [http://visionmedia.github.com/mocha/](http://visionmedia.github.com/mocha/)
-
-            describe 'Sample test', ->
-              it 'should be true', ->
-                true.should.equal true
-
-        to run mocha
-
-            cake test
-
-        ### Setup to deploy to heroku
-        
-            rm -rf .git
-            git init
-            echo 'node_modules' >> '.gitignore'
-            git add .
-            git commit -am "first commit"
-            heroku create
-            git push heroku master
-            heroku open
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
