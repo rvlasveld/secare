@@ -79,11 +79,30 @@ retrieveSensorTimespan = (id, cb) ->
 plotSensorData = (id) ->
   sense.sensorData id, (err, resp) ->
     
-    data = []
-    data.push {date: new Date(datum.date*1000), value: JSON.parse(datum.value)['x-axis']} for datum in resp.object.data
+    # data = []
+    # data.push {date: new Date(datum.date*1000), value: JSON.parse(datum.value)['x-axis']} for datum in resp.object.data
 
-    graph.draw [label: 'X-axis', data: data], {min: data[0].date, max: data[data.length-1].date}
+    datasets = []
+
+    # Check for single or multi-valued data points
+    first_object = JSON.parse(resp.object.data[0].value)
     
+    if typeof first_object.value is "object"
+      # Multiple values, assume numeric
+      for key of first_object.value
+
+        data = []
+        data.push {date: new Date(datum.date*1000), value: JSON.parse(datum.value)[key]} for datum in resp.object.data
+        datasets.push {label: key, data: data}
+
+    else
+      # Single value (assume numeric)
+      data = []
+      data.push {date: new Date(datum.date*1000), value: JSON.parse(datum.value)} for datum in resp.object.data
+      datasets.push {label: 'Sensor ' + id, data: data }
+
+    graph.draw datasets, {min: data[0].date, max: data[data.length-1].date}
+    graph.setValueRangeAuto()
     $('#actions').fadeIn()
 
 callSegmentation = (sensor, cb) ->
