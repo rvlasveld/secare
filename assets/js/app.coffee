@@ -73,42 +73,41 @@ retrieveSensorTimespan = (id, cb) ->
     return defer.promise()
 
   $.when(first_datapoint_call(), last_datapoint_call()).done (first, last) ->
-    console.log 'All data received', first, last
+    cb(first, last) if cb?
+
+getSensorData = (id, options, cb) ->
+  sense.sensorData id, options, (err, res) ->
+    cb(err, res.object.data) if cb?
 
 
-plotSensorData = (id) ->
-  sense.sensorData id, (err, resp) ->
-    
-    # data = []
-    # data.push {date: new Date(datum.date*1000), value: JSON.parse(datum.value)['x-axis']} for datum in resp.object.data
-
+plotSensorData = (sensor_data) ->
     datasets = []
 
     # Check for single or multi-valued data points
-    first_object = JSON.parse(resp.object.data[0].value)
+    first_object = JSON.parse(sensor_data[0].value)
     
     if typeof first_object is "object"
       # Multiple values, assume numeric
       for key of first_object
 
         data = []
-        data.push {date: new Date(datum.date*1000), value: JSON.parse(datum.value)[key]} for datum in resp.object.data
+        data.push {date: new Date(datum.date*1000), value: JSON.parse(datum.value)[key]} for datum in sensor_data
         datasets.push {label: key, data: data}
 
     else
       # Single value (assume numeric)
       data = []
-      data.push {date: new Date(datum.date*1000), value: JSON.parse(datum.value)} for datum in resp.object.data
+      data.push {date: new Date(datum.date*1000), value: JSON.parse(datum.value)} for datum in sensor_data
       datasets.push {label: 'Sensor ' + id, data: data }
 
-    graph.draw datasets, {min: data[0].date, max: data[data.length-1].date}
+    graph.draw datasets, {min: data[0].date, max: data[data.length-1].date, legend: {toggleVisibility: true} }
     graph.setValueRangeAuto()
     $('#actions').fadeIn()
 
-callSegmentation = (sensor, cb) ->
+callSegmentation = (sensor, start, end, cb) ->
 
   $.ajax
-    url: '/segment?sensor=' + sensor
+    url: '/segment?sensor=' + sensor + '&start=' + start + '&end=' + end
     headers:
       session_id: $.cookie('session_id')
   .done (data) ->
@@ -116,18 +115,23 @@ callSegmentation = (sensor, cb) ->
     # Add alternating background colors to data
     blue = 'rgba(51, 102, 204, 0.1)'
     red  = 'rgba(220, 57, 18, 0.1)'
-    
-    data[index]['color'] = (if index % 2 is 0 then blue else red) for datum, index in data
 
-    graph.data.push type: 'area', data: data
+    lines = []
+    for datum, index in data
+      data[index]['color'] = if index % 2 is 0 then blue else red
+      lines.push {}
 
-    graph.draw graph.data, {lines: [{}, {legend: false}]}
+    lines.push {legend: false}
+    graph.data.push type: 'area', data: data, label: 'Segments'
+
+    graph.draw graph.data, {lines: lines}
     graph.setValueRangeAuto()
 
 $ ->
 
   container = document.getElementById 'graph_container'
   graph = new links.Graph container
+  window.graph = graph
 
   checkForSenseSession()
 
@@ -156,14 +160,22 @@ $ ->
 
   $('#sensors .dropdown-menu').on 'click', 'a', (e) ->
     id = $(@).data('id')
-    plotSensorData id
 
+    retrieveSensorTimespan id, (first, last) ->
+      
+      interval = Sense.optimalInterval first.date, last.date, 1000
+
+      getSensorData id, {start_date: first.date, end_date: last.date, per_page:1000}, (err, resp) ->
+        plotSensorData resp
       
     return false;
 
 
   $('#actions .segment').on 'click', () ->
-    callSegmentation $('#sensors button').data 'id'
+
+    range = graph.getVisibleChartRange()
+
+    callSegmentation $('#sensors button').data('id'), range.start.getTime(), range.end.getTime()
     return false
 
 

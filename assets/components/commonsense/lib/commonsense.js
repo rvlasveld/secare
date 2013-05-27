@@ -9,6 +9,25 @@
       this.api_url = 'https://api.sense-os.nl';
     }
 
+    Sense.optimalInterval = function(start, end, amount) {
+      var interval, intervals, preferred_interval, range, _i, _len, _ref;
+
+      if (amount == null) {
+        amount = 1000;
+      }
+      intervals = [604800, 86500, 3600, 1800, 600, 300, 60];
+      range = end - start;
+      preferred_interval = range / amount;
+      _ref = intervals.reverse();
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        interval = _ref[_i];
+        if (interval >= preferred_interval) {
+          return interval;
+        }
+      }
+      return intervals[intervals.length - 1];
+    };
+
     return Sense;
 
   })();

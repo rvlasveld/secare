@@ -5,3 +5,6 @@ index.coffee
 index.js
 .travis.yml
 bower.json
+
+*.sublime-project
+*.sublime-workspace

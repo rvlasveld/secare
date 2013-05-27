@@ -1,3 +1,6 @@
+# Current
+- Add `optimalInterval` method
+
 # Version 0.0.6
 - Call `currentUsers` renamed to `currentUser`
 - All calls support a `data` attribute

@@ -47,110 +47,114 @@ The following api calls on the Sense object are implemented.
 The calls follow the REST-style with the verbs (create, update, delete) prefixed.
 An index (list) action corresponds with the plural form and a single get with the single form.
 The callback is of the form `next(err, response)`.
+The `data` argument is an optional object of headers.
 
 ```coffeescript
+  # H E L P E R  M E T H O D S #
+  optimalInterval: (start, end, amount = 1000) ->
+
   # A U T H E N T I C A T I O N #
-  createSession: (u, p, next)
-  deleteSession: (next)
+  createSession: (u, p, next) ->
+  deleteSession: ([ data, ] next) ->
 
   # D A T A P R O C E S S O R S #
-  dataProcessors: (next)
-  dataProcessor: (id, next)
-  createDataProcessor: (data, next)
-  updateDataProcessor: (id, data, next)
-  deleteDataProcessor: (id, next)
+  dataProcessors: ([ data, ] next) ->
+  dataProcessor: (id, [ data, ] next) ->
+  createDataProcessor: ([ data, ] next) ->
+  updateDataProcessor: (id, [ data, ] next) ->
+  deleteDataProcessor: (id, [ data, ] next) ->
 
   # D A T A  P R O C E S S O R S  &  F I L E S #
-  dataProcessorsFiles: (next)
-  dataProcessorFile: (filename, next)
-  createDataProcessorsFile: (filename, data, next)
-  updateDataProcessorsFile: (filename, data, next)
-  deleteDataProcessorsFile: (filename, next)
+  dataProcessorsFiles: ([ data, ] next) ->
+  dataProcessorFile: (filename, [ data, ] next) ->
+  createDataProcessorsFile: (filename, [ data, ] next) ->
+  updateDataProcessorsFile: (filename, [ data, ] next) ->
+  deleteDataProcessorsFile: (filename, [ data, ] next) ->
 
   # D E V I C E S #
-  devices: (next)
-  device: (id, next)
-  deviceSensors: (id, next)
+  devices: ([ data, ] next) ->
+  device: (id, [ data, ] next) ->
+  deviceSensors: (id, [ data, ] next) ->
 
   # E N V I R O N M E N T S #
-  environments: (next)
-  environment: (id, next)
-  createEnvironment: (data, next)
-  updateEnvironment: (id, data, next)
-  deleteEnvironment: (id, next)
+  # TODO: implement subenvironments
+  environments: ([ data, ] next) ->
+  environment: (id, [ data, ] next) ->
+  createEnvironment: ([ data, ] next) ->
+  updateEnvironment: (id, [ data, ] next) ->
+  deleteEnvironment: (id, [ data, ] next) ->
 
   # E N V I R O N M E N T S  &  S E N S O R S #
-  environmentSensors: (id, next)
-  createEnvironmentSensor: (id, data, next)
-  deleteEnvironmentSensor: (id, sensor, next )
+  environmentSensors: (id, [ data, ] next) ->
+  createEnvironmentSensor: (id, [ data, ] next) ->
+  deleteEnvironmentSensor: (id, sensor, next) ->
 
   # G R O U P S #
-  allGroups: (next)
-  groups: (next)
-  group: (id, next)
-  createGroup: (data, next)
-  updateGroup: (id, data, next)
-  deleteGroup: (id, next)
+  allGroups: ([ data, ] next) ->
+  groups: ([ data, ] next) ->
+  group: (id, [ data, ] next) ->
+  createGroup: ([ data, ] next) ->
+  updateGroup: (id, [ data, ] next) ->
+  deleteGroup: (id, [ data, ] next) ->
 
   # G R O U P S  &  U S E R S #
-  groupUsers: (id, next)
-  groupUser: (id, user, next)
-  createGroupUser: (id, data, next)
-  updateGroupUser: (id, user, data, next)
-  deleteGroupUser: (id, user, next)
+  groupUsers: (id, [ data, ] next) ->
+  groupUser: (id, user, next) ->
+  createGroupUser: (id, [ data, ] next) ->
+  updateGroupUser: (id, user, [ data, ] next) ->
+  deleteGroupUser: (id, user, next) ->
 
   # G R O U P S  &  S E N S O R S #
-  groupSensors: (id, next)
-  createGroupSensor: (id, data, next )
-  deleteGroupSensor: (id, sensor, next )
+  groupSensors: (id, [ data, ] next) ->
+  createGroupSensor: (id, [ data, ] next) ->
+  deleteGroupSensor: (id, sensor, next) ->
 
   # S E N S O R S #
-  sensors: (next)
-  sensor: (id, next)
-  createSensor: (data, next)
-  updateSensor: (id, data, next)
-  deleteSensor: (id, next)
-  sensorsFind: (namespace, data, next)
+  sensors: ([ data, ] next) ->
+  sensor: (id, [ data, ] next) ->
+  createSensor: ([ data, ] next) ->
+  updateSensor: (id, [ data, ] next) ->
+  deleteSensor: (id, [ data, ] next) ->
+  sensorsFind: (namespace, [ data, ] next) ->
 
   # S E N S O R S  &  D A T A #
-  sensorData: (id, next)
-  createSensorData: (id, data, next)
-  createSensorsData: (data, next)
-  deleteSensorData: (id, data_id, next)
+  sensorData: (id, [ data, ] next) ->
+  createSensorData: (id, [ data, ] next) ->
+  createSensorsData: ([ data, ] next) ->
+  deleteSensorData: (id, data_id, [ data, ] next) ->
 
   # S E N S O R S  &  E N V I R O N M E N T S #
-  sensorEnvironments: (id, next)
-
+  sensorEnvironments: (id, [ data, ] next) ->
   # S E N S O R S  &  D E V I C E S #
-  sensorDevice: (id, next)
-  createSensorDevice: (id, data, next)
-  deleteSensorDevice: (id, next)
+  sensorDevice: (id, [ data, ] next) ->
+  createSensorDevice: (id, [ data, ] next) ->
+  deleteSensorDevice: (id, [ data, ] next) ->
 
   # S E N S O R S  &  S E R V I C E S #
-  sensorsAvailableServices: (next)
-  sensorRunningServices: (id, next)
-  sensorAvailableServices: (id, next)
-  createSensorService: (id, data, next)
-  deleteSensorService: (id, service, next)
-  sensorServiceMethods: (id, service, next)
-  sensorServiceLearn: (id, service, data, next)
-  sensorServiceMethod: (id, service, method, next)
-  createSensorServiceMethod: (id, service, method, data, next)
+  sensorsAvailableServices: ([ data, ] next) ->
+  sensorRunningServices: (id, [ data, ] next) ->
+  sensorAvailableServices: (id, [ data, ] next) ->
+  createSensorService: (id, [ data, ] next) ->
+  deleteSensorService: (id, service, next) ->
+  sensorServiceMethods: (id, service, next) ->
+  sensorServiceLearn: (id, service, [ data, ] next) ->
+  sensorServiceMethod: (id, service, method, next) ->
+  createSensorServiceMethod: (id, service, method, [ data, ] next) ->
 
   # M E T A T A G S #
-  sensorsMetatags: (next)
-  sensorMetatags: (id, next)
-  createSensorMetatags: (id, data, next)
-  updateSensorMetatags: (id, data, next)
-  deleteSensorMetaTags: (id, next)
+  sensorsMetatags: ([ data, ] next) ->
+  sensorMetatags: (id, [ data, ] next) ->
+  createSensorMetatags: (id, [ data, ] next) ->
+  updateSensorMetatags: (id, [ data, ] next) ->
+  deleteSensorMetaTags: (id, [ data, ] next) ->
 
   # U S E R S #
-  currentUsers: (next)
-  users: (next)
-  user: (id, next)
-  createUser: (next)
-  updateUser: (id, data, next)
-  deleteUser: (id, next)
+  currentUser: ([ data, ] next) ->
+  users: ([ data, ] next) ->
+  user: (id, [ data, ] next) ->
+  createUser: ([ data, ] next) ->
+  updateUser: (id, [ data, ] next) ->
+  deleteUser: (id, [ data, ] next) ->
 ```
 
 ## Changelog
