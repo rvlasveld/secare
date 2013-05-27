@@ -87,9 +87,9 @@ plotSensorData = (id) ->
     # Check for single or multi-valued data points
     first_object = JSON.parse(resp.object.data[0].value)
     
-    if typeof first_object.value is "object"
+    if typeof first_object is "object"
       # Multiple values, assume numeric
-      for key of first_object.value
+      for key of first_object
 
         data = []
         data.push {date: new Date(datum.date*1000), value: JSON.parse(datum.value)[key]} for datum in resp.object.data
