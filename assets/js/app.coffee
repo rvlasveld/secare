@@ -51,6 +51,10 @@ fillSensors = (device, list, cb) ->
     list_html = ''
     list_html += "<li><a href='' data-id='#{sensor.id}' data-display='#{sensor.display_name}'>#{sensor.display_name} (#{sensor.id})</a></li>" for sensor in sorted_sensors
     $(list).html list_html
+
+    # Simulate click, for dev purposes
+    $(list).find('a').first().click()
+
     cb() if cb?
 
 
@@ -89,8 +93,16 @@ callSegmentation = (sensor, cb) ->
     headers:
       session_id: $.cookie('session_id')
   .done (data) ->
-    graph.data.push label: 'mod x-axis', data: data
-    graph.draw graph.data
+
+    # Add alternating background colors to data
+    blue = 'rgba(51, 102, 204, 0.1)'
+    red  = 'rgba(220, 57, 18, 0.1)'
+    
+    data[index]['color'] = (if index % 2 is 0 then blue else red) for datum, index in data
+
+    graph.data.push type: 'area', data: data
+
+    graph.draw graph.data, {lines: [{}, {legend: false}]}
     graph.setValueRangeAuto()
 
 $ ->

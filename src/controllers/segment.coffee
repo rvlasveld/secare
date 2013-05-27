@@ -10,6 +10,23 @@ exports.index = (req, res) ->
 
   sense.sensorData sensor, (err, resp) ->
     console.log('Error:', err) if err?
-    data = []
-    data.push {date: datum.date*1000, value: JSON.parse(datum.value)['x-axis']*3} for datum in resp.object.data
-    res.json data
+
+    # Return an array of data range objects
+    number_of_segments = 3
+
+    data = resp.object.data
+    
+    [first, last] = [data[0], data[data.length-1]]
+
+    range = last.date - first.date
+    per_segmenet = range / number_of_segments
+
+    running_start = first
+    return_data = []
+    number_of_segments += 1
+    return_data = while number_of_segments -= 1
+        segment = {start: running_start.date*1000, end: (running_start.date + per_segmenet)*1000 }
+        running_start.date += per_segmenet
+        segment
+
+    res.json return_data
