@@ -90,7 +90,7 @@ callSegmentation = (sensor, cb) ->
       session_id: $.cookie('session_id')
   .done (data) ->
     graph.data.push label: 'mod x-axis', data: data
-    graph.draw( graph.data );
+    graph.draw graph.data
     graph.setValueRangeAuto()
 
 $ ->
