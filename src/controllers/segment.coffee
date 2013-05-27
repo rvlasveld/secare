@@ -9,7 +9,7 @@ exports.index = (req, res) ->
   sense = new Sense session_id
 
   sense.sensorData sensor, (err, resp) ->
-    console.log 'Error:', err
+    console.log('Error:', err) if err?
     data = []
-    data.push {date: datum.date*1000, value: JSON.parse(datum.value)['x-axis']*2} for datum in resp.object.data
+    data.push {date: datum.date*1000, value: JSON.parse(datum.value)['x-axis']*3} for datum in resp.object.data
     res.json data

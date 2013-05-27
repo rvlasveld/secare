@@ -74,11 +74,12 @@ retrieveSensorTimespan = (id, cb) ->
 
 plotSensorData = (id) ->
   sense.sensorData id, (err, resp) ->
+    
     data = []
     data.push {date: new Date(datum.date*1000), value: JSON.parse(datum.value)['x-axis']} for datum in resp.object.data
+
+    graph.draw [label: 'X-axis', data: data], {min: data[0].date, max: data[data.length-1].date}
     
-    graph.draw [label: 'X-axis', data: data]
-    # console.log graph
     $('#actions').fadeIn()
 
 callSegmentation = (sensor, cb) ->
@@ -89,8 +90,8 @@ callSegmentation = (sensor, cb) ->
       session_id: $.cookie('session_id')
   .done (data) ->
     graph.data.push label: 'mod x-axis', data: data
-    graph.redraw()
-
+    graph.draw( graph.data );
+    graph.setValueRangeAuto()
 
 $ ->
 
