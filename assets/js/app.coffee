@@ -5,14 +5,26 @@
 sense = null
 graph = null
 
-checkForSenseSession = () ->
+checkForSenseSession = (reinitiate = true) ->
   if $.cookie('session_id')?
-    $('#authenticate form button').html 'Authenticated'
-    $('#authenticate form .username').val $.cookie('username')
-    sense = new Sense $.cookie('session_id')
+
+    $('#sign_out').closest('li').show()
+    $('#sign_in').closest('li').hide()
+
+    if reinitiate
+      sense = new Sense $.cookie('session_id')
     showDevices()
   else
     sense = new Sense
+
+    $('#sign_out').closest('li').hide()
+    $('#sign_in').closest('li').show()
+
+signOut = () ->
+  sense.deleteSession()
+  $.removeCookie 'session_id'
+  $('#sign_out').closest('li').hide()
+  $('#sign_in').closest('li').show()
 
 
 showDevices = (list) ->
@@ -100,7 +112,7 @@ plotSensorData = (sensor_data) ->
       data.push {date: new Date(datum.date*1000), value: JSON.parse(datum.value)} for datum in sensor_data
       datasets.push {label: 'Sensor ' + id, data: data }
 
-    graph.draw datasets, {min: data[0].date, max: data[data.length-1].date, legend: {toggleVisibility: true} }
+    graph.draw datasets, {min: data[0].date, max: data.last().date, legend: {toggleVisibility: true} }
     graph.setValueRangeAuto()
     $('#actions').fadeIn()
 
@@ -130,28 +142,31 @@ callSegmentation = (sensor, start, end, cb) ->
 $ ->
 
   container = document.getElementById 'graph_container'
-  graph = new links.Graph container
-  window.graph = graph
 
   checkForSenseSession()
 
 
-  $('#authenticate form').submit (e) ->
+  $('#sign_out').on 'click', (e) ->
     e.preventDefault()
+    signOut()
+    $('#devices, #sensors, #actions, #visualization').hide()
 
-    button = $(@).find('button')
-    button.attr('disabled', 'disabled').html 'Authenticating...'
+  $('form#authenticate').submit (e) ->
+
+    # TODO: ADD SPINNER
+    form = @
+
+    e.preventDefault()
 
     username = $('#username').val()
     password = md5 $('#password').val()
 
     sense.createSession username, password, (err, resp) ->
-      button.removeAttr('disabled').html 'Authenticated'
-
-      $.cookie 'username', username
+      $(form).parents('li').removeClass 'open'
       $.cookie 'session_id', resp.object.session_id
 
-      showDevices()
+      checkForSenseSession false
+      
 
 
   $('#devices .dropdown-menu').on 'click', 'a', (e) ->
@@ -159,6 +174,10 @@ $ ->
     return false
 
   $('#sensors .dropdown-menu').on 'click', 'a', (e) ->
+    $('#visualization').show()
+    
+    graph = new links.Graph container
+
     id = $(@).data('id')
 
     retrieveSensorTimespan id, (first, last) ->
