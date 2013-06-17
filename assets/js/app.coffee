@@ -7,16 +7,23 @@ graph = null
 
 checkForSenseSession = (reinitiate = true) ->
   if $.cookie('session_id')?
-
-    $('#sign_out').closest('li').show()
-    $('#sign_in').closest('li').hide()
-
+    correct_credentials = true
+    
     if reinitiate
       sense = new Sense $.cookie('session_id')
-    showDevices()
+      
+      # Check if credentials are still valid
+      sense.currentUser (error, response) ->
+        if response.status is not 200
+          correct_credentials = false
   else
     sense = new Sense
 
+  if correct_credentials
+    showDevices()
+    $('#sign_in').closest('li').hide()
+    $('#sign_out').closest('li').show()
+  else
     $('#sign_out').closest('li').hide()
     $('#sign_in').closest('li').show()
 
