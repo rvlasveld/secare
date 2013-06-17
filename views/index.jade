@@ -11,12 +11,12 @@ block content
     p
       | Secare uses data stored in the Sense-OS platform to segment your data.
       | You have to provide your username and password (shortly OAuth will be)
-      | implemented!), after which you can choose which device and sensor you
+      | implemented), after which you can choose which device and sensor you
       | want to visualise. The segmentation algorithms are:
     ul
-      li RuLSIF
-      li CUSUM
-      li Roemer's Method
+      li CUSUM: Use of Cumulative Sum for change in variance
+      li SVCPD: Support Vector Change Point Detection
+      li Method to be announced
 
     p
       | The resulting segmentation is available as interactive chart, a rendered
@@ -27,32 +27,38 @@ block content
     #devices.span4
       h2 Devices
       p Please select the device you wish to inspect.
-      form
-        .btn-group
-          button.btn.dropdown-toggle(data-toggle="dropdown")
-            | Device
-            &nbsp;
-            span.caret
-          ul.dropdown-menu
-            li
-              a No devices
+      .btn-group
+        button.btn.device Device
+        button.btn.dropdown-toggle(data-toggle="dropdown")
+          span.caret
+        ul.dropdown-menu
+          li
+            a No devices
 
     #sensors.span4
       h2 Sensors
       p Please select the sensor you wish to inspect.
-      form
-        .btn-group
-          button.btn.dropdown-toggle(data-toggle="dropdown")
-            | Sensor
-            &nbsp;
-            span.caret
-          ul.dropdown-menu
-            li
-              a No sensors
+      .btn-group
+        button.btn.sensor Sensor
+        button.btn.dropdown-toggle(data-toggle="dropdown")
+          span.caret
+        ul.dropdown-menu
+          li
+            a No sensors
     
     #actions.span4
-      button.btn.btn-large.btn-primary.segment Segment
+      h2 Actions
+      p Start the segmentation process for this range.
+      .btn-group
+        button.btn.btn-primary.segment Segment
+        button.btn.btn-primary.dropdown-toggle(data-toggle="dropdown")
+          span.caret
+        ul.dropdown-menu
+          li: a(href="#", data-method='cusum', data-display='CUSUM') CUSUM
+          li: a(href="#", data-method='svcpd', data-display='SVCPD') SVCPD
+          li: a(href="#", data-method='roemer', data-display='Roemer') Roemer's method
 
 
   #visualization.row
+    h2 Graph
     #graph_container

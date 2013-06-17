@@ -131,6 +131,9 @@ callSegmentation = (sensor, start, end, cb) ->
       session_id: $.cookie('session_id')
   .done (data) ->
 
+    # Clear current segmentation
+    graph_data = (dataset for dataset in graph.data when dataset.type isnt 'area' )
+
     # Add alternating background colors to data
     blue = 'rgba(51, 102, 204, 0.1)'
     red  = 'rgba(220, 57, 18, 0.1)'
@@ -141,17 +144,19 @@ callSegmentation = (sensor, start, end, cb) ->
       lines.push {}
 
     lines.push {legend: false}
-    graph.data.push type: 'area', data: data, label: 'Segments'
+    graph_data.push type: 'area', data: data, label: 'Segments'
 
-    graph.draw graph.data, {lines: lines}
+    graph.draw graph_data, {lines: lines}
     graph.setValueRangeAuto()
 
+
+
+# When DOM is loaded...
 $ ->
 
   container = document.getElementById 'graph_container'
 
   checkForSenseSession()
-
 
   $('#sign_out').on 'click', (e) ->
     e.preventDefault()
@@ -174,7 +179,6 @@ $ ->
 
       checkForSenseSession false
       
-
 
   $('#devices .dropdown-menu').on 'click', 'a', (e) ->
     showSensors $(@).data('id')
@@ -201,13 +205,14 @@ $ ->
 
     range = graph.getVisibleChartRange()
 
-    callSegmentation $('#sensors button').data('id'), range.start.getTime(), range.end.getTime()
+    callSegmentation $('#sensors .sensor').data('id'), range.start.getTime(), range.end.getTime()
     return false
 
 
   # Replace dropdown value with selected value
   $('.dropdown-menu').on 'click', 'a', (e) ->
-    button = $(@).closest('.btn-group').removeClass('open').find('button')
+    button = $(@).closest('.btn-group').removeClass('open').find('button').not('.dropdown-toggle')
     button_childs = button.find('*')
     button.text($(@).data('display') + ' ').append button_childs
     button.data('id', $(@).data('id') )
+    return false
