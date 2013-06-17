@@ -5,9 +5,9 @@ Secare is an online platform to segment time series data from the [CommonSense](
 Currently it provides only a web interface, but in the future REST-style json api will be available.
 
 # Install locally
-`npm install`
+Install npm packages: `npm install`.
+
 Optionally: `cd assets; bower install` to update Bower (frontend) packages.
 
 # Run locally
-Perform normal 
 To run on local development machine: `cake dev`
