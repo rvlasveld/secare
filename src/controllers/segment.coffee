@@ -1,7 +1,7 @@
 Sense = require 'commonsense'
 
 # Default segment action
-# segment?sensor=1[&start=mili-timestamp&end=mili-timestamp]
+# segment?sensor=1[&start=milliseconds timestamp&end=milliseconds timestamp]
 exports.index = (req, res) ->
   sensor = req.query.sensor
   start = req.query.start / 1000.0
@@ -9,7 +9,6 @@ exports.index = (req, res) ->
   console.log 'Start:', start, ', End:', end
   
   session_id = req.headers.session_id
-  # session_id = '510751bec36fae9681.10756219'
 
   sense = new Sense session_id
 
