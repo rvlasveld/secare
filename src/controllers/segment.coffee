@@ -4,15 +4,16 @@ Sense = require 'commonsense'
 # segment?sensor=1[&start=mili-timestamp&end=mili-timestamp]
 exports.index = (req, res) ->
   sensor = req.query.sensor
-  start = req.query.start
-  end = req.query.end
-
-  # session_id = req.headers.session_id
-  session_id = '510751bec36fae9681.10756219'
+  start = req.query.start / 1000.0
+  end = req.query.end / 1000.0
+  console.log 'Start:', start, ', End:', end
+  
+  session_id = req.headers.session_id
+  # session_id = '510751bec36fae9681.10756219'
 
   sense = new Sense session_id
 
-  sense.sensorData sensor, {start: start, end: end, per_page: 1000}, (err, resp) ->
+  sense.sensorData sensor, {start_date: start, end_date: end, per_page: 1000}, (err, resp) ->
     console.log('Error:', err) if err?
 
     # Return an array of data range objects

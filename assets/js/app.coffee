@@ -135,8 +135,8 @@ callSegmentation = (sensor, start, end, cb) ->
     graph_data = (dataset for dataset in graph.data when dataset.type isnt 'area' )
 
     # Add alternating background colors to data
-    blue = 'rgba(51, 102, 204, 0.1)'
-    red  = 'rgba(220, 57, 18, 0.1)'
+    blue = 'rgba(51, 102, 204, 0.3)'
+    red  = 'rgba(220, 57, 18, 0.3)'
 
     lines = []
     for datum, index in data
@@ -204,7 +204,8 @@ $ ->
   $('#actions .segment').on 'click', () ->
 
     range = graph.getVisibleChartRange()
-
+    window.range = range
+    console.log 'Range:', range
     callSegmentation $('#sensors .sensor').data('id'), range.start.getTime(), range.end.getTime()
     return false
 
