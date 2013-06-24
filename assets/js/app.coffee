@@ -1,6 +1,6 @@
 #= require ../components/commonsense/lib/commonsense.js
 #= require ../components/JavaScript-MD5/md5.min.js
-#= require graph-1.3.0/graph-min.js
+#= require graph-1.3.1/graph-min.js
 
 sense = null
 graph = null
