@@ -131,22 +131,17 @@ callSegmentation = (sensor, start, end, cb) ->
       session_id: $.cookie('session_id')
   .done (data) ->
 
-    # Clear current segmentation
-    graph_data = (dataset for dataset in graph.data when dataset.type isnt 'area' )
+    # Clear current segmentation, remove all the events
+    graph_data = (dataset for dataset in graph.data when dataset.type isnt 'event' )
 
-    # Add alternating background colors to data
-    blue = 'rgba(51, 102, 204, 0.3)'
-    red  = 'rgba(220, 57, 18, 0.3)'
-
-    lines = []
     for datum, index in data
-      data[index]['color'] = if index % 2 is 0 then blue else red
-      lines.push {}
+      date = new Date datum['date']
+      datum['text'] = "CP #{index+1}"
+      datum['title'] = date.toString()
 
-    lines.push {legend: false}
-    graph_data.push type: 'area', data: data, label: 'Segments'
+    graph_data.push type: 'event', data: data, label: 'Change points'
 
-    graph.draw graph_data, {lines: lines}
+    graph.draw graph_data
     graph.setValueRangeAuto()
 
 

@@ -29,8 +29,7 @@ exports.index = (req, res) ->
     return_data = []
     number_of_segments += 1
     return_data = while number_of_segments -= 1
-        segment = {start: running_start.date * 1000, end: (running_start.date + per_segment) * 1000 }
-        running_start.date += per_segment
-        segment
+      running_start.date += per_segment
+      {date: running_start.date * 1000}
 
     res.json return_data
